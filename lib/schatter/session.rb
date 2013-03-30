@@ -1,10 +1,7 @@
 require 'httparty'
 require 'cgi'
 
-module Schatter
-end
-
-class Schatter::Server
+class Schatter::Session
   def initialize url=ENV['SCHATTER_URL']
     @url = url || ENV['SCHATTER_URL'] || 'http://schatter.herokuapp.com'
     @auth_token = ENV['SCHATTER_AUTH_TOKEN']
@@ -13,6 +10,10 @@ class Schatter::Server
   def urls
     return @urls if @urls
     @urls = extract_links get @url
+  end
+
+  def conversations
+    puts urls['conversations']
   end
 
   def extract_links response

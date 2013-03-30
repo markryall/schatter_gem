@@ -4,6 +4,4 @@ $: << File.dirname(__FILE__)+'/../lib'
 
 require 'schatter/cli'
 
-include Schatter::Cli
-
-execute *ARGV
+Schatter::Cli.new.push
