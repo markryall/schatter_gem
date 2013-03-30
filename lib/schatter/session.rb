@@ -13,13 +13,17 @@ class Schatter::Session
   end
 
   def conversations
-    puts urls['conversations']
+    @conversations = get(urls['conversations'])['conversations']
+  end
+
+  def conversation index
+    @conversations[index]
   end
 
   def extract_links response
     links = {}
     response['_links'].each do |k, v|
-      links[k] = v['href']
+      links[k] = v['href'].gsub('AUTH_TOKEN', @auth_token)
     end
     links
   end

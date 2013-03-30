@@ -2,6 +2,6 @@
 
 $: << File.dirname(__FILE__)+'/../lib'
 
-require 'schatter/cli'
+require 'schatter/root_context'
 
-Schatter::Cli.new.push
+Schatter::RootContext.new.push
