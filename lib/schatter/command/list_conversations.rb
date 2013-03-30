@@ -9,7 +9,7 @@ class Schatter::Command::ListConversations
 
   def execute *ignored
     session.conversations.each_with_index do |conversation, index|
-      puts "#{index+1} #{Time.at conversation['timestamp']} #{conversation['uuid']}"
+      puts "#{index+1} #{conversation.description}"
     end
   end
 end

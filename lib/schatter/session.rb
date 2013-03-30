@@ -1,5 +1,6 @@
 require 'httparty'
 require 'cgi'
+require 'schatter/conversation'
 
 class Schatter::Session
   def initialize url=ENV['SCHATTER_URL']
@@ -13,7 +14,7 @@ class Schatter::Session
   end
 
   def conversations
-    @conversations = get(urls['conversations'])['conversations']
+    @conversations = get(urls['conversations'])['conversations'].map {|c| Schatter::Conversation.new c }
   end
 
   def conversation index
