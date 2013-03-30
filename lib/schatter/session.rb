@@ -18,7 +18,7 @@ class Schatter::Session
   end
 
   def conversation index
-    @conversations[index]
+    @conversations[index-1]
   end
 
   def extract_links response

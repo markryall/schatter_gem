@@ -1,8 +1,9 @@
 class Schatter::Conversation
-  attr_reader :resource
+  attr_reader :resource, :name
 
   def initialize resource
     @resource = resource
+    @name = resource['name']
   end
 
   def description

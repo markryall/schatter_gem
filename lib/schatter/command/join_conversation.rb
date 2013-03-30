@@ -1,3 +1,5 @@
+require 'schatter/conversation_context'
+
 class Schatter::Command::JoinConversation
   attr_reader :usage, :help, :session
 

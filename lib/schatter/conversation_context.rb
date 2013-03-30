@@ -6,6 +6,7 @@ class Schatter::ConversationContext
   include ShellShock::Context
 
   def initialize conversation
+    @prompt = "#{conversation.name} > "
     @conversation = conversation
   end
 end
