@@ -1,6 +1,3 @@
-module Schatter::Command
-end
-
 class Schatter::Command::ListConversations
   attr_reader :usage, :help, :session
 
