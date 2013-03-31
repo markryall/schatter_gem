@@ -12,7 +12,17 @@ module Schatter::Resource
 
   def get url
     puts "GET #{url}" if ENV['DEBUG']
-    response = HTTParty.get url, headers: {'Accept' => 'application/json'}
+    response = HTTParty.get url,
+      headers: {'Accept' => 'application/json'}
+    puts response if ENV['DEBUG']
+    response
+  end
+
+  def post url, body
+    puts "POST #{url} #{body.to_json}" if ENV['DEBUG']
+    response = HTTParty.post url,
+      headers: {'Accept' => 'application/json', 'Content-Type' => 'application/json'},
+      body: body.to_json
     puts response if ENV['DEBUG']
     response
   end

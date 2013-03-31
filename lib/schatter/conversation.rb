@@ -1,4 +1,5 @@
 require 'schatter/resource'
+require 'schatter/message'
 
 class Schatter::Conversation
   include Schatter::Resource
@@ -15,6 +16,10 @@ class Schatter::Conversation
     @messages = get(urls['messages'])['messages'].map do |resource|
       Schatter::Message.new resource
     end
+  end
+
+  def create content
+    post urls['messages'], content: content
   end
 
   def description

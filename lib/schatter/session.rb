@@ -13,13 +13,15 @@ class Schatter::Session
     @urls = extract_links get @url
   end
 
-  def conversations
+  def conversations reload=false
+    @conversations = nil if reload
+    return @conversations if @conversations
     @conversations = get(urls['conversations'])['conversations'].map do |c|
       Schatter::Conversation.new c
     end
   end
 
   def conversation index
-    @conversations[index-1]
+    conversations[index-1]
   end
 end
