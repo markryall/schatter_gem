@@ -11,5 +11,6 @@ class Schatter::ConversationContext
     @conversation = conversation
     add_command load_command(:list_messages, conversation), 'ls'
     add_command load_command(:create_message, conversation), 'touch'
+    add_command load_command(:invite_person, conversation), 'invite'
   end
 end

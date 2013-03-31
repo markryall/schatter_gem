@@ -18,8 +18,12 @@ class Schatter::Conversation
     end
   end
 
-  def create content
+  def create_message content
     post urls['messages'], content: content
+  end
+
+  def create_person email
+    post urls['people'], email: email
   end
 
   def description

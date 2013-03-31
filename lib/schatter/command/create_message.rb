@@ -8,6 +8,6 @@ class Schatter::Command::CreateMessage
   end
 
   def execute message
-    conversation.create message
+    conversation.create_message message
   end
 end
