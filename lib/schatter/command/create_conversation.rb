@@ -1,16 +1,16 @@
 require 'schatter/conversation_context'
 
-class Schatter::Command::JoinConversation
+class Schatter::Command::CreateConversation
   attr_reader :usage, :help, :session
 
   def initialize session
     @session = session
-    @usage = '<index>'
-    @help = 'Joins a specified conversation'
+    @usage = '<name>'
+    @help = 'Creates and joins a new conversation'
   end
 
-  def execute index
-    conversation = session.conversation index.to_i
+  def execute name
+    conversation = session.create_conversation name
     Schatter::ConversationContext.new(conversation).push
   end
 end

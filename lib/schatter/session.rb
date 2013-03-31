@@ -16,12 +16,16 @@ class Schatter::Session
   def conversations reload=false
     @conversations = nil if reload
     return @conversations if @conversations
-    @conversations = get(urls['conversations'])['conversations'].map do |c|
-      Schatter::Conversation.new c
+    @conversations = get(urls['conversations'])['conversations'].map do |resource|
+      Schatter::Conversation.new resource
     end
   end
 
   def conversation index
     conversations[index-1]
+  end
+
+  def create_conversation name
+    Schatter::Conversation.new post urls['conversations'], name: name
   end
 end

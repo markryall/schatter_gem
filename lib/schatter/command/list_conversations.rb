@@ -7,8 +7,8 @@ class Schatter::Command::ListConversations
     @help = 'Lists current conversations'
   end
 
-  def execute *ignored
-    session.conversations.each_with_index do |conversation, index|
+  def execute ignored
+    session.conversations(true).each_with_index do |conversation, index|
       puts "#{index+1} #{conversation.description}"
     end
   end
