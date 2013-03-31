@@ -1,11 +1,11 @@
-require 'httparty'
-require 'cgi'
+require 'schatter/resource'
 require 'schatter/conversation'
 
 class Schatter::Session
+  include Schatter::Resource
+
   def initialize url=ENV['SCHATTER_URL']
     @url = url || ENV['SCHATTER_URL'] || 'http://schatter.herokuapp.com'
-    @auth_token = ENV['SCHATTER_AUTH_TOKEN']
   end
 
   def urls
@@ -14,22 +14,12 @@ class Schatter::Session
   end
 
   def conversations
-    @conversations = get(urls['conversations'])['conversations'].map {|c| Schatter::Conversation.new c }
+    @conversations = get(urls['conversations'])['conversations'].map do |c|
+      Schatter::Conversation.new c
+    end
   end
 
   def conversation index
     @conversations[index-1]
-  end
-
-  def extract_links response
-    links = {}
-    response['_links'].each do |k, v|
-      links[k] = v['href'].gsub('AUTH_TOKEN', @auth_token)
-    end
-    links
-  end
-
-  def get url
-    HTTParty.get url, headers: {'Accept' => 'application/json'}
   end
 end

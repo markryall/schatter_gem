@@ -11,7 +11,7 @@ class Schatter::Command::JoinConversation
 
   def execute id
     conversation = session.conversation id.to_i
-    puts "joining conversation #{conversation}"
+    puts "joining conversation #{conversation.description}"
     context = Schatter::ConversationContext.new conversation
     context.push
   end

@@ -8,5 +8,6 @@ class Schatter::ConversationContext
   def initialize conversation
     @prompt = "#{conversation.name} > "
     @conversation = conversation
+    add_command load_command(:list_messages, conversation), 'ls'
   end
 end
