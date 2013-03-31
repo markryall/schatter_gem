@@ -8,8 +8,8 @@ class Schatter::Command::ListMessages
   end
 
   def execute *ignored
-    conversation.messages.each_with_index do |conversation, index|
-      puts "#{index+1} #{conversation.description}"
+    conversation.messages.each_with_index do |message, index|
+      puts "#{index+1} #{message.description}"
     end
   end
 end

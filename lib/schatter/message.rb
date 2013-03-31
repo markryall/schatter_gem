@@ -10,6 +10,6 @@ class Schatter::Message
   end
 
   def description
-    "#{Time.at resource['timestamp']}: (#{resource['content']})"
+    "#{Time.at resource['timestamp']}: #{resource['person']['email']} #{resource['content']}"
   end
 end
