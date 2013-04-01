@@ -1,4 +1,8 @@
+require 'schatter/index'
+
 class Schatter::Command::ReplyToMessage
+  include Schatter::Index
+
   attr_reader :usage, :help, :conversation, :context
 
   def initialize conversation, context
@@ -9,8 +13,12 @@ class Schatter::Command::ReplyToMessage
   end
 
   def execute text
-    uuid, content = context.head_tail text
-    message = conversation.messages[uuid]
+    index, content = context.head_tail text
+    message = conversation.messages.values[from_index(index)]
+    unless message
+      puts "invalid index #{index}"
+      return
+    end
     conversation.create_message content: content, parent_id: message.uuid
   end
 end

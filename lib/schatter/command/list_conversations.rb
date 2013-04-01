@@ -15,11 +15,11 @@ class Schatter::Command::ListConversations
 
   def execute ignored
     session.conversations(true).values.each_with_index do |conversation, index|
-      puts description(index, conversation)
+      puts description conversation, index
     end
   end
 
-  def description index, conversation
+  def description conversation, index
     [
       c(to_index(index), :yellow),
       c(conversation.formatted_timestamp, :blue),

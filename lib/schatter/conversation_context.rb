@@ -6,7 +6,6 @@ class Schatter::ConversationContext
   include ShellShock::Context
 
   def initialize conversation
-    puts "joining conversation #{conversation.name} (#{conversation.uuid})"
     @prompt = "#{conversation.name} > "
     @conversation = conversation
     add_command load_command(:list_messages, conversation), 'ls', "'"
