@@ -9,7 +9,11 @@ class Schatter::RootContext
 
   def initialize url=nil
     url = "http://localhost:3000" unless url
-    @prompt = "schatter.#{Schatter::VERSION} > "
+    unless ENV['SCHATTER_AUTH_TOKEN']
+      puts "Please register at #{url} and set environment variable SCHATTER_AUTH_TOKEN"
+      exit 1
+    end
+    @prompt = "schatter.#{Schatter::VERSION} #{url}> "
     session = Schatter::Session.new url: url
     add_command load_command(:list_conversations, session), "'"
     add_command load_command(:join_conversation, session), 'join'
