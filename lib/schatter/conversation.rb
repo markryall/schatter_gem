@@ -1,10 +1,17 @@
 require 'schatter/resource'
 require 'schatter/message'
+require 'schatter/person'
 
 class Schatter::Conversation < Schatter::Resource
   def messages
     @messages = get(links[:messages])['messages'].map do |resource|
       Schatter::Message.new resource: resource
+    end
+  end
+
+  def people
+    @people = get(links[:people])['people'].map do |resource|
+      Schatter::Person.new resource: resource
     end
   end
 

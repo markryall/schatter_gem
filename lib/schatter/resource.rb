@@ -5,6 +5,7 @@ class Schatter::Resource
   def initialize params
     @url = params[:url]
     @resource = params[:resource]
+    @url = links[:self] if @resource
   end
 
   def resource
