@@ -1,29 +1,23 @@
 require 'schatter/resource'
 require 'schatter/message'
 
-class Schatter::Conversation
-  include Schatter::Resource
-
-  attr_reader :resource, :name, :urls
-
-  def initialize resource
-    @resource = resource
-    @name = resource['name']
-    @urls = extract_links resource
-  end
-
+class Schatter::Conversation < Schatter::Resource
   def messages
-    @messages = get(urls['messages'])['messages'].map do |resource|
-      Schatter::Message.new resource
+    @messages = get(links[:messages])['messages'].map do |resource|
+      Schatter::Message.new resource: resource
     end
   end
 
   def create_message content
-    post urls['messages'], content: content
+    post links[:messages], content: content
   end
 
   def create_person email
-    post urls['people'], email: email
+    post links[:people], email: email
+  end
+
+  def name
+    resource['name']
   end
 
   def description

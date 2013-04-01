@@ -4,4 +4,4 @@ $: << File.dirname(__FILE__)+'/../lib'
 
 require 'schatter/root_context'
 
-Schatter::RootContext.new.push
+Schatter::RootContext.new(*ARGV).push

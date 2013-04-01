@@ -1,23 +1,12 @@
 require 'schatter/resource'
 require 'schatter/conversation'
 
-class Schatter::Session
-  include Schatter::Resource
-
-  def initialize url=ENV['SCHATTER_URL']
-    @url = url || ENV['SCHATTER_URL'] || 'http://schatter.herokuapp.com'
-  end
-
-  def urls
-    return @urls if @urls
-    @urls = extract_links get @url
-  end
-
+class Schatter::Session < Schatter::Resource
   def conversations reload=false
     @conversations = nil if reload
     return @conversations if @conversations
-    @conversations = get(urls['conversations'])['conversations'].map do |resource|
-      Schatter::Conversation.new resource
+    @conversations = get(links[:conversations])['conversations'].map do |resource|
+      Schatter::Conversation.new resource: resource
     end
   end
 
@@ -26,6 +15,6 @@ class Schatter::Session
   end
 
   def create_conversation name
-    Schatter::Conversation.new post urls['conversations'], name: name
+    Schatter::Conversation.new post links['conversations'], name: name
   end
 end

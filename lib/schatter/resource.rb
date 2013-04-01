@@ -1,13 +1,25 @@
 require 'httparty'
 require 'cgi'
 
-module Schatter::Resource
-  def extract_links response
-    links = {}
-    response['_links'].each do |k, v|
-      links[k] = v['href'].gsub('AUTH_TOKEN', ENV['SCHATTER_AUTH_TOKEN'])
+class Schatter::Resource
+  def initialize params
+    @url = params[:url]
+    @resource = params[:resource]
+  end
+
+  def resource
+    return @resource if @resource
+    @resource = get @url
+  end
+
+  def links
+    return @links if @links
+    @links = {}
+    resource['_links'].each do |k, v|
+      @links[k.to_sym] = v['href'].gsub('AUTH_TOKEN', ENV['SCHATTER_AUTH_TOKEN'])
     end
-    links
+    puts "#{@links}" if ENV['DEBUG']
+    @links
   end
 
   def get url
