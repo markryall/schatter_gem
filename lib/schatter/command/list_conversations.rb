@@ -9,7 +9,7 @@ class Schatter::Command::ListConversations
 
   def execute ignored
     session.conversations(true).each_with_index do |conversation, index|
-      puts "#{index+1} #{conversation.description}"
+      puts "#{index} #{conversation.description}"
     end
   end
 end

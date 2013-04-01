@@ -21,12 +21,12 @@ class Schatter::Conversation < Schatter::Resource
     end]
   end
 
-  def create_message content
-    post links[:messages], content: content
+  def create_message params
+    post links[:messages], params
   end
 
-  def create_person email
-    post links[:people], email: email
+  def create_person params
+    post links[:people], params
   end
 
   def name

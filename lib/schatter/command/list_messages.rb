@@ -1,4 +1,8 @@
+require 'schatter/colour'
+
 class Schatter::Command::ListMessages
+  include Schatter::Colour
+
   attr_reader :usage, :help, :conversation
 
   def initialize conversation
@@ -11,7 +15,7 @@ class Schatter::Command::ListMessages
     conversation.messages.each_with_index do |message, index|
       person = conversation.people[message.person_id]
       email = person ? person.email : '?'
-      puts "#{index+1} #{message.timestamp} #{email} #{message.content}"
+      puts "#{c index, :yellow} #{c message.formatted_timestamp, :blue} #{c email, :magenta} #{message.content}"
     end
   end
 end

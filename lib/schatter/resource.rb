@@ -8,6 +8,10 @@ class Schatter::Resource
     @url = links[:self] if @resource
   end
 
+  def destroy
+    delete @url
+  end
+
   def resource
     return @resource if @resource
     @resource = get @url
@@ -32,6 +36,16 @@ class Schatter::Resource
     full_url = "#{url}?#{params.map{ |k,v| "#{k}=#{CGI.escape v.to_s}" }.join('&')}"
     puts "GET #{full_url}" if ENV['DEBUG']
     response = HTTParty.get full_url,
+      headers: {'Accept' => 'application/json'}
+    puts response if ENV['DEBUG']
+    response
+  end
+
+  def delete url, params={}
+    params[:auth_token] = ENV['SCHATTER_AUTH_TOKEN']
+    full_url = "#{url}?#{params.map{ |k,v| "#{k}=#{CGI.escape v.to_s}" }.join('&')}"
+    puts "DELETE #{full_url}" if ENV['DEBUG']
+    response = HTTParty.delete full_url,
       headers: {'Accept' => 'application/json'}
     puts response if ENV['DEBUG']
     response

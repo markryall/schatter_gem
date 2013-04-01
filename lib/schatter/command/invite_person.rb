@@ -8,6 +8,6 @@ class Schatter::Command::InvitePerson
   end
 
   def execute email
-    conversation.create_person email
+    conversation.create_person email: email
   end
 end

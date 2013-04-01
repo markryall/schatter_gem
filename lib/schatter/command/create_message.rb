@@ -3,11 +3,11 @@ class Schatter::Command::CreateMessage
 
   def initialize conversation
     @conversation = conversation
-    @usage = ''
-    @help = 'Lists messages for the current conversation'
+    @usage = 'content'
+    @help = 'Creates a new message in the current conversation'
   end
 
-  def execute message
-    conversation.create_message message
+  def execute content
+    conversation.create_message content: content
   end
 end

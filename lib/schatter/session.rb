@@ -10,10 +10,6 @@ class Schatter::Session < Schatter::Resource
     end
   end
 
-  def conversation index
-    conversations[index-1]
-  end
-
   def create_conversation name
     Schatter::Conversation.new post links['conversations'], name: name
   end

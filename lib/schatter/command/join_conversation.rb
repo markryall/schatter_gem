@@ -10,7 +10,7 @@ class Schatter::Command::JoinConversation
   end
 
   def execute index
-    conversation = session.conversation index.to_i
+    conversation = session.conversations[index.to_i]
     Schatter::ConversationContext.new(conversation).push
   end
 end
