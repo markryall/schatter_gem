@@ -1,7 +1,9 @@
 require 'schatter/colour'
+require 'schatter/index'
 
 class Schatter::Command::ListConversations
   include Schatter::Colour
+  include Schatter::Index
 
   attr_reader :usage, :help, :session
 
@@ -12,14 +14,14 @@ class Schatter::Command::ListConversations
   end
 
   def execute ignored
-    session.conversations(true).values.each do |conversation|
-      puts description conversation
+    session.conversations(true).values.each_with_index do |conversation, index|
+      puts description(index, conversation)
     end
   end
 
-  def description conversation
+  def description index, conversation
     [
-      c(conversation.uuid, :yellow),
+      c(to_index(index), :yellow),
       c(conversation.formatted_timestamp, :blue),
       c(conversation.name, :magenta),
     ].join ' '
