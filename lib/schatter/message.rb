@@ -16,4 +16,8 @@ class Schatter::Message < Schatter::Resource
   def person_id
     resource['person_id']
   end
+
+  def parent_id
+    resource['parent_id']
+  end
 end

@@ -13,9 +13,20 @@ class Schatter::Command::ListMessages
 
   def execute *ignored
     conversation.messages(true).values.each do |message, index|
-      person = conversation.people[message.person_id]
-      email = person ? person.email : '?'
-      puts "#{c message.uuid, :yellow} #{c message.formatted_timestamp, :blue} #{c email, :magenta} #{message.content}"
+      puts description message
     end
+  end
+
+  def description message
+    person = conversation.people[message.person_id]
+    email = person ? person.email : '?'
+    list = [
+      c(message.uuid, :yellow),
+      c(message.formatted_timestamp, :blue),
+      c(email, :magenta),
+      message.content
+    ]
+    list << c(message.parent_id, :green) if message.parent_id
+    list.join ' '
   end
 end
