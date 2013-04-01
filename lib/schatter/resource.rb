@@ -1,7 +1,10 @@
 require 'httparty'
 require 'cgi'
+require 'schatter/colour'
 
 class Schatter::Resource
+  include Schatter::Colour
+
   def initialize params
     @url = params[:url]
     @resource = params[:resource]
@@ -23,7 +26,6 @@ class Schatter::Resource
     resource['_links'].each do |k, v|
       @links[k.to_sym] = v['href']
     end
-    puts "#{@links}" if ENV['DEBUG']
     @links
   end
 
@@ -40,32 +42,56 @@ class Schatter::Resource
   end
 
   def get url, params={}
-    params[:auth_token] = ENV['SCHATTER_AUTH_TOKEN']
-    full_url = "#{url}?#{params.map{ |k,v| "#{k}=#{CGI.escape v.to_s}" }.join('&')}"
-    puts "GET #{full_url}" if ENV['DEBUG']
-    response = HTTParty.get full_url,
-      headers: {'Accept' => 'application/json'}
-    puts response if ENV['DEBUG']
-    response
+    nonpost url, params, :get
   end
 
   def delete url, params={}
+    nonpost url, params, :delete
+  end
+
+  def nonpost url, params, verb
     params[:auth_token] = ENV['SCHATTER_AUTH_TOKEN']
     full_url = "#{url}?#{params.map{ |k,v| "#{k}=#{CGI.escape v.to_s}" }.join('&')}"
-    puts "DELETE #{full_url}" if ENV['DEBUG']
-    response = HTTParty.delete full_url,
-      headers: {'Accept' => 'application/json'}
-    puts response if ENV['DEBUG']
-    response
+    show_request verb, url
+    send_request do
+      HTTParty.send verb, full_url,
+        headers: {'Accept' => 'application/json'}
+    end
   end
 
   def post url, body
     body[:auth_token] = ENV['SCHATTER_AUTH_TOKEN']
-    puts "POST #{url} #{body.to_json}" if ENV['DEBUG']
-    response = HTTParty.post url,
-      headers: {'Accept' => 'application/json', 'Content-Type' => 'application/json'},
-      body: body.to_json
-    puts response if ENV['DEBUG']
-    response
+    show_request :post, url, body
+    send_request do
+      HTTParty.post url,
+        headers: {'Accept' => 'application/json', 'Content-Type' => 'application/json'},
+        body: body.to_json
+    end
+  end
+
+  def send_request
+    start = Time.now
+    yield.tap {|response| show_response response, Time.now - start}
+  end
+
+  def show_request verb, url, body=nil
+    return unless ENV['DEBUG']
+    puts [
+      c(verb, :magenta),
+      c(url, :red)
+    ].join(' ')
+    puts [
+      'request: ',
+      c(body.to_json, :yellow)
+    ].join(' ') if body
+  end
+
+  def show_response response, duration
+    return unless ENV['DEBUG']
+    puts [
+      'response: ',
+      c(response, :yellow)
+    ].join(' ')
+    puts c("#{duration} seconds",:green)
   end
 end
