@@ -11,6 +11,7 @@ class Schatter::Session < Schatter::Resource
   end
 
   def create_conversation name
-    Schatter::Conversation.new post links['conversations'], name: name
+    resource = post links[:conversations], name: name
+    Schatter::Conversation.new resource: resource
   end
 end
