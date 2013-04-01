@@ -31,6 +31,14 @@ class Schatter::Resource
     resource['uuid']
   end
 
+  def timestamp
+    Time.at resource['timestamp']
+  end
+
+  def formatted_timestamp
+    timestamp.strftime "%d/%m/%Y %H:%M:%S"
+  end
+
   def get url, params={}
     params[:auth_token] = ENV['SCHATTER_AUTH_TOKEN']
     full_url = "#{url}?#{params.map{ |k,v| "#{k}=#{CGI.escape v.to_s}" }.join('&')}"

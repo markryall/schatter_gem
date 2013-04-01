@@ -1,4 +1,8 @@
+require 'schatter/colour'
+
 class Schatter::Command::ListConversations
+  include Schatter::Colour
+
   attr_reader :usage, :help, :session
 
   def initialize session
@@ -9,7 +13,15 @@ class Schatter::Command::ListConversations
 
   def execute ignored
     session.conversations(true).values.each do |conversation|
-      puts "#{conversation.uuid} #{conversation.description}"
+      puts description conversation
     end
+  end
+
+  def description conversation
+    [
+      c(conversation.uuid, :yellow),
+      c(conversation.formatted_timestamp, :blue),
+      c(conversation.name, :magenta),
+    ].join ' '
   end
 end

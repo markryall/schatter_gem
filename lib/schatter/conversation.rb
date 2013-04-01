@@ -38,8 +38,4 @@ class Schatter::Conversation < Schatter::Resource
   def name
     resource['name']
   end
-
-  def description
-    "#{resource['name']} #{Time.at resource['timestamp']} (#{resource['uuid']})"
-  end
 end
