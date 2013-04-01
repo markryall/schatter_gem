@@ -8,7 +8,7 @@ class Schatter::Command::ListPeople
   end
 
   def execute *ignored
-    conversation.people.values.each do |person|
+    conversation.people(true).values.each do |person|
       puts "#{person.email}"
     end
   end
