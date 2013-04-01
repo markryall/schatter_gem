@@ -4,7 +4,10 @@ require 'schatter/person'
 
 class Schatter::Conversation < Schatter::Resource
   def messages
-    @messages = get(links[:messages])['messages'].map do |resource|
+    @messages ||= []
+    url = links[:messages]
+    url += "&message_id=#{@messages.last.uuid}" unless @messages.empty?
+    @messages += get(url)['messages'].map do |resource|
       Schatter::Message.new resource: resource
     end
   end

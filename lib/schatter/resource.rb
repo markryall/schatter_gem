@@ -23,6 +23,10 @@ class Schatter::Resource
     @links
   end
 
+  def uuid
+    resource['uuid']
+  end
+
   def get url
     puts "GET #{url}" if ENV['DEBUG']
     response = HTTParty.get url,
