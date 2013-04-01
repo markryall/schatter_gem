@@ -13,10 +13,11 @@ class Schatter::Conversation < Schatter::Resource
 
   def new_messages
     params = {}
-    params[:message_id] = @messages.last.uuid unless @messages.empty?
-    Hash[get(url, params)['messages'].map do |resource|
-      [resource['uuid'], Schatter::Message.new(resource: resource)]
-    end]
+    params[:message_id] = messages.last.uuid unless messages.empty?
+    get(links[:messages], params)['messages'].each do |resource|
+      messages[resource['uuid']] = Schatter::Message.new(resource: resource)
+    end
+    @messages
   end
 
   def people reload=false
