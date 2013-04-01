@@ -5,9 +5,9 @@ class Schatter::Session < Schatter::Resource
   def conversations reload=false
     @conversations = nil if reload
     return @conversations if @conversations
-    @conversations = get(links[:conversations])['conversations'].map do |resource|
-      Schatter::Conversation.new resource: resource
-    end
+    @conversations = Hash[get(links[:conversations])['conversations'].map do |resource|
+      [resource['uuid'], Schatter::Conversation.new(resource: resource)]
+    end]
   end
 
   def create_conversation name

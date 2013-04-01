@@ -3,14 +3,20 @@ require 'schatter/message'
 require 'schatter/person'
 
 class Schatter::Conversation < Schatter::Resource
-  def messages
-    @messages ||= []
-    url = links[:messages]
+  def messages reload=false
+    @messages = nil if reload
+    return @messages if @messages
+    @messages = Hash[get(links[:messages])['messages'].map do |resource|
+      [resource['uuid'], Schatter::Message.new(resource: resource)]
+    end]
+  end
+
+  def new_messages
     params = {}
     params[:message_id] = @messages.last.uuid unless @messages.empty?
-    @messages += get(url, params)['messages'].map do |resource|
-      Schatter::Message.new resource: resource
-    end
+    Hash[get(url, params)['messages'].map do |resource|
+      [resource['uuid'], Schatter::Message.new(resource: resource)]
+    end]
   end
 
   def people reload=false

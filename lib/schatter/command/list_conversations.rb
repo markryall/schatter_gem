@@ -8,8 +8,8 @@ class Schatter::Command::ListConversations
   end
 
   def execute ignored
-    session.conversations(true).each_with_index do |conversation, index|
-      puts "#{index} #{conversation.description}"
+    session.conversations(true).values.each do |conversation|
+      puts "#{conversation.uuid} #{conversation.description}"
     end
   end
 end

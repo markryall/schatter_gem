@@ -9,8 +9,8 @@ class Schatter::Command::ReplyToMessage
   end
 
   def execute text
-    index, content = context.head_tail text
-    message = conversation.messages[index.to_i]
+    uuid, content = context.head_tail text
+    message = conversation.messages[uuid]
     conversation.create_message content: content, parent_id: message.uuid
   end
 end

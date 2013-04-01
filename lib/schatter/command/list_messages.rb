@@ -12,10 +12,10 @@ class Schatter::Command::ListMessages
   end
 
   def execute *ignored
-    conversation.messages.each_with_index do |message, index|
+    conversation.messages(true).values.each do |message, index|
       person = conversation.people[message.person_id]
       email = person ? person.email : '?'
-      puts "#{c index, :yellow} #{c message.formatted_timestamp, :blue} #{c email, :magenta} #{message.content}"
+      puts "#{c message.uuid, :yellow} #{c message.formatted_timestamp, :blue} #{c email, :magenta} #{message.content}"
     end
   end
 end

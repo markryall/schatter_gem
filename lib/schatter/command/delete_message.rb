@@ -3,12 +3,12 @@ class Schatter::Command::DeleteMessage
 
   def initialize conversation
     @conversation = conversation
-    @usage = '<index>'
+    @usage = '<uuid>'
     @help = 'Deletes the specified message'
   end
 
-  def execute index
-    message = conversation.messages[index.to_i]
+  def execute uuid
+    message = conversation.messages[uuid]
     message.destroy if message
     puts "#{message.content} destroyed"
   end

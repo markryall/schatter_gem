@@ -5,12 +5,12 @@ class Schatter::Command::JoinConversation
 
   def initialize session
     @session = session
-    @usage = '<index>'
+    @usage = '<uuid>'
     @help = 'Joins a specified conversation'
   end
 
-  def execute index
-    conversation = session.conversations[index.to_i]
+  def execute uuid
+    conversation = session.conversations[uuid]
     Schatter::ConversationContext.new(conversation).push
   end
 end
