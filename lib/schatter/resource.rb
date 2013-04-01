@@ -17,7 +17,7 @@ class Schatter::Resource
     return @links if @links
     @links = {}
     resource['_links'].each do |k, v|
-      @links[k.to_sym] = v['href'].gsub('AUTH_TOKEN', ENV['SCHATTER_AUTH_TOKEN'])
+      @links[k.to_sym] = v['href']
     end
     puts "#{@links}" if ENV['DEBUG']
     @links
@@ -27,15 +27,18 @@ class Schatter::Resource
     resource['uuid']
   end
 
-  def get url
-    puts "GET #{url}" if ENV['DEBUG']
-    response = HTTParty.get url,
+  def get url, params={}
+    params[:auth_token] = ENV['SCHATTER_AUTH_TOKEN']
+    full_url = "#{url}?#{params.map{ |k,v| "#{k}=#{CGI.escape v.to_s}" }.join('&')}"
+    puts "GET #{full_url}" if ENV['DEBUG']
+    response = HTTParty.get full_url,
       headers: {'Accept' => 'application/json'}
     puts response if ENV['DEBUG']
     response
   end
 
   def post url, body
+    body[:auth_token] = ENV['SCHATTER_AUTH_TOKEN']
     puts "POST #{url} #{body.to_json}" if ENV['DEBUG']
     response = HTTParty.post url,
       headers: {'Accept' => 'application/json', 'Content-Type' => 'application/json'},

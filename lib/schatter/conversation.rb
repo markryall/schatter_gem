@@ -6,16 +6,19 @@ class Schatter::Conversation < Schatter::Resource
   def messages
     @messages ||= []
     url = links[:messages]
-    url += "&message_id=#{@messages.last.uuid}" unless @messages.empty?
-    @messages += get(url)['messages'].map do |resource|
+    params = {}
+    params[:message_id] = @messages.last.uuid unless @messages.empty?
+    @messages += get(url, params)['messages'].map do |resource|
       Schatter::Message.new resource: resource
     end
   end
 
-  def people
-    @people = get(links[:people])['people'].map do |resource|
-      Schatter::Person.new resource: resource
-    end
+  def people reload=false
+    @people = nil if reload
+    return @people if @people
+    @people = Hash[get(links[:people])['people'].map do |resource|
+      [resource['uuid'], Schatter::Person.new(resource: resource)]
+    end]
   end
 
   def create_message content

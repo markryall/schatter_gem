@@ -9,7 +9,10 @@ class Schatter::Command::ListMessages
 
   def execute *ignored
     conversation.messages.each_with_index do |message, index|
-      puts "#{index+1} #{message.description}"
+      p message.person_id
+      person = conversation.people[message.person_id]
+      p person
+      puts "#{index+1} #{message.timestamp} #{person.email} #{message.content}"
     end
   end
 end

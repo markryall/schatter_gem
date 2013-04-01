@@ -1,7 +1,15 @@
 require 'schatter/resource'
 
 class Schatter::Message < Schatter::Resource
-  def description
-    "#{Time.at resource['timestamp']}: #{resource['person']['email']} #{resource['content']}"
+  def timestamp
+    Time.at resource['timestamp']
+  end
+
+  def content
+    resource['content']
+  end
+
+  def person_id
+    resource['person_id']
   end
 end
